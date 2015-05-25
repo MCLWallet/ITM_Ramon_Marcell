@@ -13,7 +13,7 @@
 	<property name="buildWebapp" location="webapps/itm/WEB-INF/classes" />
 	<property name="libWebapp" location="webapps/itm/WEB-INF/lib" />
 	<property name="prefuseJarWebapp" location="webapps/itm/infovis" />
-	<property name="xugglerNativeLibs" location="path-to-xuggle-lib-directory" />
+	<property name="xugglerNativeLibs" location="lib" />
 
 
 	<!-- class path variable -->

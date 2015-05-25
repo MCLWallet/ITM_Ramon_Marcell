@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="build" path="java"/>
-	<classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
+	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
 	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/commons-cli.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/jl1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/jmf.jar"/>
@@ -17,7 +17,7 @@
 	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/vorbisspi1.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/xuggle-xuggler-test.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/xuggle-xuggler.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Marcell/eclipse/plugins/org.eclipse.equinox.launcher_1.3.0.v20140415-2008.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Marcell/workspace/2015_ITM_UE_2/lib/xuggle-xuggler-5.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

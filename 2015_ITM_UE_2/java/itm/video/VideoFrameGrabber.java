@@ -5,9 +5,20 @@ package itm.video;
  (c) University of Vienna 2009-2015
  *******************************************************************************/
 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
+import com.xuggle.mediatool.IMediaListener;
+import com.xuggle.mediatool.IMediaReader;
+import com.xuggle.mediatool.MediaListenerAdapter;
+import com.xuggle.mediatool.ToolFactory;
+import com.xuggle.mediatool.event.IVideoPictureEvent;
+import com.xuggle.xuggler.Global;
 
 /**
  * 
@@ -21,6 +32,11 @@ import java.util.ArrayList;
 
 public class VideoFrameGrabber {
 
+	public static int TOTAL_ITERATIONS = 0;
+	public static long TOTAL_TIMESTAMPS = 0;
+	public static boolean ALREADY_ITERATED = false;
+	
+	
 	/**
 	 * Constructor.
 	 */
@@ -93,8 +109,17 @@ public class VideoFrameGrabber {
 			throw new IOException(output + " is not a directory!");
 
 		File outputFile = new File(output, input.getName() + "_thumb.jpg");
+		
 		// load the input video file
-
+		IMediaReader mediaReader = ToolFactory.makeReader(input.getPath());
+		
+		mediaReader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
+		
+		mediaReader.addListener(new ImageSnapListener(input, output));		
+		
+		
+		while (mediaReader.readPacket() == null);
+		while (mediaReader.readPacket() == null);
 		// ***************************************************************
 		// Fill in your code here!
 		// ***************************************************************
@@ -102,6 +127,62 @@ public class VideoFrameGrabber {
 		return outputFile;
 
 	}
+	
+	private static class ImageSnapListener extends MediaListenerAdapter {
+
+		private File input;
+		private File output;
+		private long lastValue;
+		private boolean alreadyPrint;
+		
+		public ImageSnapListener(File in, File o){
+			this.input=in;
+			this.output=o;
+			this.lastValue=0;
+			this.alreadyPrint=false;
+		}
+		
+        public void onVideoPicture(IVideoPictureEvent event) {
+
+        	if (!alreadyPrint){
+        		BufferedImage buf = null;
+        		System.out.println("Timestamp: "+event.getTimeStamp());
+
+        	
+        		if (ALREADY_ITERATED && event.getTimeStamp()>=TOTAL_TIMESTAMPS/2){
+        		
+        			buf=event.getImage();
+        	
+        			File f = null;
+        			try{
+        				f = new File(output.getAbsolutePath()+"\\"+input.getName()+"_FRAME.jpeg");
+        				ImageIO.write(buf, "jpeg", f);
+        				System.out.println("Writing complete!");
+        			
+        			}
+        			catch (IOException e){	
+        				System.err.println("Writing Error!");
+        			}
+        		
+        			alreadyPrint=true;
+        		}
+        	
+        		if(TOTAL_TIMESTAMPS!=0 && event.getTimeStamp()==0){
+        			ALREADY_ITERATED=true;
+        		}
+        		if (!ALREADY_ITERATED) TOTAL_TIMESTAMPS=event.getTimeStamp();
+        		
+        		
+        		//lastValue=event.getTimeStamp();
+        		
+        		
+        		//System.out.println("LastValue: "+lastValue);
+        		System.out.println("TOTAL TIMESTAMPS: "+TOTAL_TIMESTAMPS);
+        	}
+        }
+	}
+	
+        
 
 	/**
 	 * Main method. Parses the commandline parameters and prints usage
